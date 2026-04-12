@@ -10,7 +10,7 @@
 <style>
 body { margin: 0; font-family: Arial; background: #f4f6f9; }
 
-<header class="navbar">
+
     <div class="logo">🍳 FridgeFinder</div>
     <div id="authSection"></div>
 </header>
@@ -102,6 +102,31 @@ p { text-align: center;
     font-weight: bold;
 }
 
+    .search-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.search-card h2 {
+    margin: 0;
+}
+
+.search-row {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.search-row input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
     
 </style>
 </head>
@@ -115,18 +140,27 @@ p { text-align: center;
 </header>
 
 <div class="container">
-<button class="fav-btn" onclick="showFavorites()">⭐ View Favorites</button>
+<div class="search-card">
+    <h2>Find Recipes</h2>
+    <p style="color:#555;">Cook smarter with what you already have 🍽</p>
 
-<input id="searchInput" placeholder="Search by ingredient...">
-<button class="search-btn" onclick="searchByIngredient()">Search</button>
+    <div class="search-row">
+        <input id="searchInput" placeholder="Search by ingredient...">
+        <button class="search-btn" onclick="searchByIngredient()">Search</button>
+    </div>
 
-<select onchange="searchByCategory(this.value)">
-<option value="">Browse Category</option>
-<option>Chicken</option>
-<option>Beef</option>
-<option>Dessert</option>
-<option>Seafood</option>
-</select>
+    <select onchange="searchByCategory(this.value)">
+        <option value="">Browse Category</option>
+        <option>Chicken</option>
+        <option>Beef</option>
+        <option>Dessert</option>
+        <option>Seafood</option>
+    </select>
+
+    <br><br>
+
+    <button class="fav-btn" onclick="showFavorites()">⭐ View Favorites</button>
+</div>
 
 <div id="recipes" class="grid"></div>
 
