@@ -222,7 +222,7 @@ function toggleFavorite(recipe){
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
-    alert("Updated favorites!");
+    alert(exists ? "Removed from favorites" : "Added to favorites");
 }
 
 function showFavorites(){
