@@ -141,13 +141,26 @@ function renderAuth(){
         ? `<button class="logout-btn" onclick="logout()">Logout</button>`
         : `<button class="login-btn" onclick="login()">Login</button>`;
 }
-
 function login(){
-    const u = prompt("Username:");
-    const p = prompt("Password:");
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+function closeLogin(){
+    document.getElementById("loginModal").style.display = "none";
+}
+
+function doLogin(){
+    const u = document.getElementById("loginUser").value;
+    const p = document.getElementById("loginPass").value;
+
     if(u==="bob" && p==="bobpass"){
-        user=u; alert("Logged in"); renderAuth();
-    } else alert("Invalid");
+        user = u;
+        alert("Logged in");
+        renderAuth();
+        closeLogin();
+    } else {
+        alert("Invalid login");
+    }
 }
 
 function logout(){ user=null; renderAuth(); }
