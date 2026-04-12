@@ -76,6 +76,7 @@ button {
 </header>
 
 <div class="container">
+<button class="fav-btn" onclick="showFavorites()">View Favorites</button> 
 
 <input id="searchInput" placeholder="Search by ingredient...">
 <button class="search-btn" onclick="searchByIngredient()">Search</button>
@@ -217,8 +218,17 @@ function toggleFavorite(recipe){
     alert("Updated favorites!");
 }
 
+function showFavorites(){
+    if(favorites.length === 0){
+        alert("No favorites yet!");
+        return;
+    }
+
+    displayRecipes(favorites);
+}    
+    
 renderAuth();
 </script>
-
+ 
 </body>
 </html>
