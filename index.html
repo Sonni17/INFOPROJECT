@@ -313,12 +313,11 @@ function displayRecipes(list){
     list.forEach(r=>{
         const div=document.createElement("div");
         div.className="card";
-div.innerHTML=`
+div.innerHTML = `
     <img src="${r.strMealThumb}">
     <h3>${r.strMeal}</h3>
     <button class="view-btn" onclick="openRecipe('${r.idMeal}')">View Recipe</button>
-    
-    ;
+`;
        
 
         container.appendChild(div);
