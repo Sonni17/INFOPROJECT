@@ -124,6 +124,7 @@ p { text-align: center;
 
 <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" id="modalContent" onclick="event.stopPropagation()"></div>
+    
 </div>
     <div id="loginModal" class="modal" onclick="closeLogin()">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -139,7 +140,8 @@ p { text-align: center;
         <button onclick="closeLogin()">Cancel</button>
     </div>
 </div>
-
+<div id="toast" class="toast"></div>
+    
 <script>
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service.js")
