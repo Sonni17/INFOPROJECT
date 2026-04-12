@@ -1,0 +1,224 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Fridge Finder</title>
+
+<style>
+body { margin: 0; font-family: Arial; background: #f4f6f9; }
+
+header {
+    background: #222;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container { padding: 20px; }
+
+button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-btn { background: blue; color: white; }
+.fav-btn { background: orange; color: white; }
+.login-btn { background: green; color: white; }
+.logout-btn { background: red; color: white; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.card img { width: 100%; }
+
+
+.modal {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.7);
+    display: none; 
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content {
+    background:white;
+    padding:20px;
+    width:80%;
+    max-height:90%;
+    overflow:auto;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>🍳 FridgeFinder</h2>
+<div id="authSection"></div>
+<p style="text-align:center; color:#555;">Find recipes with what you already have 🍽</p>
+</header>
+
+<div class="container">
+
+<input id="searchInput" placeholder="Search by ingredient...">
+<button class="search-btn" onclick="searchByIngredient()">Search</button>
+
+<select onchange="searchByCategory(this.value)">
+<option value="">Browse Category</option>
+<option>Chicken</option>
+<option>Beef</option>
+<option>Dessert</option>
+<option>Seafood</option>
+</select>
+
+<div id="recipes" class="grid"></div>
+
+</div>
+
+
+<div id="modal" class="modal" onclick="closeModal()">
+    <div class="modal-content" id="modalContent" onclick="event.stopPropagation()"></div>
+</div>
+
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service.js")
+    .then(() => console.log("Service Registered"))
+    .catch(err => console.log(err));
+}
+
+let user = null;
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+function renderAuth(){
+    const div = document.getElementById("authSection");
+    div.innerHTML = user 
+        ? `<button class="logout-btn" onclick="logout()">Logout</button>`
+        : `<button class="login-btn" onclick="login()">Login</button>`;
+}
+
+function login(){
+    const u = prompt("Username:");
+    const p = prompt("Password:");
+    if(u==="bob" && p==="bobpass"){
+        user=u; alert("Logged in"); renderAuth();
+    } else alert("Invalid");
+}
+
+function logout(){ user=null; renderAuth(); }
+
+
+async function searchByIngredient(){
+    const q = document.getElementById("searchInput").value.trim();
+    if(!q) return alert("Enter an ingredient");
+
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${q}`);
+    const data = await res.json();
+
+    displayRecipes(data.meals || []);
+}
+
+async function searchByCategory(cat){
+    if(!cat) return;
+
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${cat}`);
+    const data = await res.json();
+
+    displayRecipes(data.meals || []);
+}
+
+
+function displayRecipes(list){
+    const container = document.getElementById("recipes");
+    container.innerHTML="";
+
+    list.forEach(r=>{
+        const div=document.createElement("div");
+        div.className="card";
+
+        div.innerHTML=`
+            <img src="${r.strMealThumb}">
+            <h3>${r.strMeal}</h3>
+            <button onclick="openRecipe('${r.idMeal}')">View</button>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+
+async function openRecipe(id){
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const data = await res.json();
+    if (!data.meals) return alert("Recipe not found");
+
+    const r = data.meals[0];
+
+    const ingredients=[];
+    for(let i=1;i<=20;i++){
+        const ing = r[`strIngredient${i}`];
+        const measure = r[`strMeasure${i}`];
+        if(ing && ing.trim()){
+            ingredients.push(`${measure} ${ing}`);
+        }
+    }
+
+    document.getElementById("modalContent").innerHTML=`
+        <h2>${r.strMeal}</h2>
+        <img src="${r.strMealThumb}" style="width:100%">
+        
+        <h3>Ingredients</h3>
+        <ul>${ingredients.map(i=>`<li>${i}</li>`).join("")}</ul>
+
+        <h3>Instructions</h3>
+        <p>${r.strInstructions}</p>
+
+        <button class="fav-btn" onclick='toggleFavorite(${JSON.stringify(r)})'>Favorite</button>
+    `;
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+
+function closeModal(){
+    document.getElementById("modal").style.display = "none";
+}
+
+
+function toggleFavorite(recipe){
+    if(!user) return alert("Login first!");
+
+    const exists = favorites.find(r=>r.idMeal===recipe.idMeal);
+
+    if(exists){
+        favorites = favorites.filter(r=>r.idMeal!==recipe.idMeal);
+    } else {
+        favorites.push(recipe);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    alert("Updated favorites!");
+}
+
+renderAuth();
+</script>
+
+</body>
+</html>
