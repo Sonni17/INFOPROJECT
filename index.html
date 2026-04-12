@@ -130,6 +130,10 @@ async function searchByIngredient(){
     const q = document.getElementById("searchInput").value.trim();
     if(!q) return alert("Enter an ingredient");
 
+const container = document.getElementById("recipes");
+container.innerHTML = "Loading...";
+
+    
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${q}`);
     const data = await res.json();
 
@@ -138,6 +142,9 @@ async function searchByIngredient(){
 
 async function searchByCategory(cat){
     if(!cat) return;
+
+    const container = document.getElementById("recipes");
+    container.innerHTML = "Loading...";
 
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${cat}`);
     const data = await res.json();
