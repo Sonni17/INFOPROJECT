@@ -142,7 +142,21 @@ p { text-align: center;
 </div>
 <div id="toast" class="toast"></div>
     
-<script>
+<script type="module">
+import { db } from "./firebase.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+async function test() {
+    await addDoc(collection(db, "test"), {
+        message: "Hello Firebase",
+        time: new Date()
+    });
+
+    console.log("Saved!");
+}
+test();
+
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service.js")
     .then(() => console.log("Service Registered"))
@@ -316,6 +330,17 @@ function showFavorites(){
 }
     
 renderAuth();
+
+window.searchByIngredient = searchByIngredient;
+window.searchByCategory = searchByCategory;
+window.openRecipe = openRecipe;
+window.toggleFavorite = toggleFavorite;
+window.showFavorites = showFavorites;
+window.login = login;
+window.logout = logout;
+window.doLogin = doLogin;
+window.closeLogin = closeLogin;
+window.closeModal = closeModal;
 </script>
  
 </body>
