@@ -170,7 +170,7 @@ function doLogin(){
 
     if(u==="bob" && p==="bobpass"){
         user = u;
-        alert("Logged in");
+        showToast("Logged in successfully ");
         renderAuth();
         closeLogin();
     } else {
@@ -301,6 +301,16 @@ function showFavorites(){
 
     container.innerHTML = "<h2>⭐ Your Favorites</h2>";
     displayRecipes(favorites);
+}
+
+    function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.style.opacity = "1";
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+    }, 2000);
 }
     
 renderAuth();
