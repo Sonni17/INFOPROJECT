@@ -11,8 +11,11 @@ const firebaseConfig = {
   measurementId: "G-CG6E6V0Q5K"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+let db;
 
-// export so other files can use it
-export { app, db };
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+} catch (error) {
+  console.error("Firebase failed to initialize:", error);
+}
