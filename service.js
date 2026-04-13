@@ -1,17 +1,23 @@
-const CACHE_NAME = "recipe-app-v2"; 
+const CACHE_NAME = "recipe-app-v2";
 
-self.addEventListener("install", event => {
-  self.skipWaiting(); 
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
 });
 
-self.addEventListener("activate", event => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys => 
-      Promise.all(keys.map(key => caches.delete(key)))
-    )
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    })
   );
 });
 
-self.addEventListener("fetch", event => {
+self.addEventListener("fetch", (event) => {
   event.respondWith(fetch(event.request));
 });
