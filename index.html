@@ -134,7 +134,31 @@ header p {
     outline: none;
     font-size: 14px;
 }
+    .search-row input::placeholder {
+    color: #bbb;
+}
 
+ select {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #1f2937;
+    color: white;
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+}   
+.search-row input:hover,
+select:hover {
+    background: #374151;
+}
+    .search-row input,
+select {
+    transition: 0.2s ease;
+}
+
+
+    
     .card {
     background: white;
     border-radius: 12px;
@@ -211,8 +235,9 @@ button:hover {
 .search-btn {
     background: #1f2937;
     color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
 }
-
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
