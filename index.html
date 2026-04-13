@@ -415,8 +415,8 @@ async function openRecipe(id){
 
     document.getElementById("modalContent").innerHTML=`
         <h2>${r.strMeal}</h2>
-        <img src="${r.strMealThumb}" style="width:100%">
-        
+ 
+        <img src="${r.strMealThumb}" style="width:100%; max-height:250px; object-fit:cover; border-radius:10px; display:block; margin-bottom:10px;">
         <h3>Ingredients</h3>
         <ul>${ingredients.map(i=>`<li>${i}</li>`).join("")}</ul>
 
