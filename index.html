@@ -35,9 +35,17 @@ button {
 
 .card {
     background: white;
-    padding: 15px;
-    border-radius: 10px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1.5px solid #111;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
+.card:hover {
+    transform: translateY(-6px);
+    border-color: #2563eb;
+}
+    
 
 .card img { width: 100%; }
 
