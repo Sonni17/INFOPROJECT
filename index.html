@@ -153,6 +153,77 @@ header p {
     background: #222;
     color: white;
 }
+    body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #f4f6f9, #e9eef5);
+}
+
+.navbar {
+    background: #1f2937;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tagline {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.search-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+button {
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+.search-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+.card h3 {
+    padding: 10px;
+}
 
     
 </style>
@@ -160,12 +231,14 @@ header p {
 
 <body>
 
-<header>
-<h2>🍳 FridgeFinder</h2>
-<div id="authSection"></div>
-<p>Find recipes with what you already have 🍽</p>
-</header>
+<header class="navbar">
+    <div class="logo">🍳 FridgeFinder</div>
 
+    <p class="tagline">Find recipes with what you already have 🍽</p>
+
+    <div id="authSection"></div>
+</header>
+    
 <div class="container">
 <div class="search-card">
     <h2>Find Recipes</h2>
